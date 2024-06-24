@@ -1,7 +1,6 @@
 plugins {
     id 'java'
-    id 'eclipse'
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.0.1"
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.0.1'
 }
 
 group = 'me.bigvirusboi'
@@ -9,15 +8,21 @@ version = '1.0'
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
     }
 }
 
 dependencies {
-    compileOnly "com.velocitypowered:velocity-api:3.3.0-SNAPSHOT"
-    annotationProcessor "com.velocitypowered:velocity-api:3.3.0-SNAPSHOT"
+    compileOnly 'net.beanium.lib:velocity:1.0'
+
+    compileOnly 'com.velocitypowered:velocity-api:3.3.0-SNAPSHOT'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.3.0-SNAPSHOT'
+
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 }
 
 def targetJavaVersion = 17
@@ -54,4 +59,3 @@ def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
 sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
 
 rootProject.idea.project.settings.taskTriggers.afterSync generateTemplates
-project.eclipse.synchronizationTasks(generateTemplates)
