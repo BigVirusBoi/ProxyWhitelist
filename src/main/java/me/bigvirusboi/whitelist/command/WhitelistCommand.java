@@ -149,7 +149,7 @@ public class WhitelistCommand extends CoreCommand {
 			return;
 		}
 
-		source.sendMessage(Component.text("§6Whitelisted players §7(Proxy Whitelist)"));
+		source.sendMessage(Component.text("§6§lWhitelisted players §7(Proxy Whitelist)"));
 		for (SimplePlayer player : whitelist.getWhitelisted().keySet()) {
 			source.sendMessage(Component.text("§8 - §7%s §e%s".formatted(player.name(), whitelist.getDurationFormatted(player))));
 		}
