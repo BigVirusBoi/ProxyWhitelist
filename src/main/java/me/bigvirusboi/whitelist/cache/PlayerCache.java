@@ -3,7 +3,7 @@ package me.bigvirusboi.whitelist.cache;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.beanium.lib.data.SimplePlayer;
-import net.beanium.lib.tool.MinecraftServices;
+import net.beanium.lib.tool.MinecraftAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class PlayerCache {
 			return player;
 		}
 
-		SimplePlayer player = MinecraftServices.getPlayer(name);
+		SimplePlayer player = MinecraftAPI.getPlayer(name);
 		if (player == null) return null;
 
 		cache.put(player.name().toLowerCase(), player);
