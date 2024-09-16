@@ -83,7 +83,7 @@ public final class Whitelist {
 			return "§cEXPIRED";
 		}
 
-		return "§a" + TimeUtil.formatSeconds(expire - System.currentTimeMillis());
+		return "§a" + TimeUtil.formatToSeconds(expire - System.currentTimeMillis());
 	}
 
 	public long getDuration(UUID uuid) {
