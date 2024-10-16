@@ -18,4 +18,4 @@ Advanced whitelist system for Velocity. \
 - ***proxy.whitelist.kick* | /pwl kick** - Kick everyone who is not whitelisted
 - ***proxy.whitelist.list* | /pwl list** - List all whitelisted players
 - ***proxy.whitelist.remove* | /pwl remove <player>** - Remove a player from the whitelist
-- ***proxy.whitelist.set* | /pwl set <player> (duration)** - Add a player to the whitelist
+- ***proxy.whitelist.set* | /pwl set \<player\> \[duration\]** - Add a player to the whitelist
