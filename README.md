@@ -1,13 +1,10 @@
 # ProxyWhitelist
 
-> [!NOTE]
-> These shields do not work yet, as I have not submitted the project for review on Modrinth.
-
-![Modrinth Game Versions](https://img.shields.io/modrinth/game-versions)
-![Modrinth Downloads](https://img.shields.io/modrinth/dt)
+![Modrinth Version](https://img.shields.io/modrinth/v/proxywhitelist?style=for-the-badge)
+![Modrinth Downloads](https://img.shields.io/modrinth/dt/proxywhitelist?style=for-the-badge)
 
 Advanced whitelist system for Velocity. \
-[Modrinth](https://modrinth.com/project/proxywhitelist)
+[Modrinth](https://modrinth.com/plugin/proxywhitelist)
 
 ## Commands and permissions
 
