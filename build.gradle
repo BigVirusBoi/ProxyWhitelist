@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.bigvirusboi'
-version = '1.0'
+version = '0.1'
 
 repositories {
     mavenCentral()
@@ -16,8 +16,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'net.beanium.lib:velocity:1.0'
-
     compileOnly 'com.velocitypowered:velocity-api:3.3.0-SNAPSHOT'
     annotationProcessor 'com.velocitypowered:velocity-api:3.3.0-SNAPSHOT'
 

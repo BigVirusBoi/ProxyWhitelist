@@ -3,19 +3,20 @@ package me.bigvirusboi.whitelist.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.bigvirusboi.whitelist.Constants;
+import me.bigvirusboi.whitelist.BuildConstants;
+import me.bigvirusboi.whitelist.cache.CachedPlayer;
 import me.bigvirusboi.whitelist.cache.PlayerCache;
-import me.bigvirusboi.whitelist.Whitelist;
-import net.beanium.lib.data.SimplePlayer;
-import net.beanium.lib.time.DurationParser;
-import net.beanium.lib.time.TimeUtil;
-import net.beanium.lib.velocity.command.CoreCommand;
+import me.bigvirusboi.whitelist.manager.Whitelist;
+import me.bigvirusboi.whitelist.util.Constants;
+import me.bigvirusboi.whitelist.util.DurationParser;
+import me.bigvirusboi.whitelist.util.Permissions;
+import me.bigvirusboi.whitelist.util.TimeUtil;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.bigvirusboi.whitelist.Constants.CMD;
+import static me.bigvirusboi.whitelist.util.Constants.CMD;
 
 public class WhitelistCommand extends CoreCommand {
 	private final ProxyServer proxy;
@@ -23,7 +24,7 @@ public class WhitelistCommand extends CoreCommand {
 	private final PlayerCache cache;
 
 	public WhitelistCommand(ProxyServer proxy, Whitelist whitelist, PlayerCache cache) {
-		super(Constants.MAIN_COMMAND_NAME, Constants.PERMISSION, Constants.COMMAND_ALIASES);
+		super(Constants.MAIN_COMMAND_NAME, Permissions.BASE, Constants.COMMAND_ALIASES);
 		this.proxy = proxy;
 		this.whitelist = whitelist;
 		this.cache = cache;
@@ -44,6 +45,8 @@ public class WhitelistCommand extends CoreCommand {
 			source.sendMessage(Component.text("§6 /" + CMD + "§e list§8 - §7List all whitelisted players"));
 			source.sendMessage(Component.text("§6 /" + CMD + "§e remove <player>§8 - §7Remove a player from the whitelist"));
 			source.sendMessage(Component.text("§6 /" + CMD + "§e set <player> [duration]§8 - §7Add a player to the whitelist"));
+			source.sendMessage(Component.newline().append(Component.text(
+					"§7Running §6§lProxy Whitelist v" + BuildConstants.VERSION + "§7 by §e" + Constants.CREDITS)));
 			return;
 		}
 
@@ -71,7 +74,7 @@ public class WhitelistCommand extends CoreCommand {
 			switch (args[0].toLowerCase()) {
 				case "clear" -> arguments.addAll(List.of("all", "expired"));
 				case "get", "set" -> arguments.addAll(proxy.getAllPlayers().stream().map(Player::getUsername).toList());
-				case "remove" -> arguments.addAll(whitelist.getWhitelisted().keySet().stream().map(SimplePlayer::name).toList());
+				case "remove" -> arguments.addAll(whitelist.getWhitelisted().keySet().stream().map(CachedPlayer::name).toList());
 			}
 		}
 
@@ -125,7 +128,7 @@ public class WhitelistCommand extends CoreCommand {
 			return;
 		}
 
-		SimplePlayer player = cache.getPlayer(args[1]);
+		CachedPlayer player = cache.getPlayer(args[1]);
 		if (player == null) {
 			source.sendMessage(Component.text("§cPlayer not found"));
 			return;
@@ -150,7 +153,7 @@ public class WhitelistCommand extends CoreCommand {
 		}
 
 		source.sendMessage(Component.text("§6§lWhitelisted players §7(Proxy Whitelist)"));
-		for (SimplePlayer player : whitelist.getWhitelisted().keySet()) {
+		for (CachedPlayer player : whitelist.getWhitelisted().keySet()) {
 			source.sendMessage(Component.text("§8 - §7%s §e%s".formatted(player.name(), whitelist.getDurationFormatted(player))));
 		}
 	}
@@ -161,7 +164,7 @@ public class WhitelistCommand extends CoreCommand {
 			return;
 		}
 
-		SimplePlayer player = cache.getPlayer(args[1]);
+		CachedPlayer player = cache.getPlayer(args[1]);
 		if (player == null) {
 			source.sendMessage(Component.text("§cPlayer not found"));
 			return;
@@ -181,7 +184,7 @@ public class WhitelistCommand extends CoreCommand {
 			return;
 		}
 
-		SimplePlayer player = cache.getPlayer(args[1]);
+		CachedPlayer player = cache.getPlayer(args[1]);
 		if (player == null) {
 			source.sendMessage(Component.text("§cPlayer not found"));
 			return;
@@ -203,6 +206,6 @@ public class WhitelistCommand extends CoreCommand {
 
 		long expire = parser.isPermanent() ? -1 : System.currentTimeMillis() + parser.getMillis();
 		whitelist.set(player, expire);
-		source.sendMessage(Component.text("§7Set whitelist of §f%s§7 to §a%s§7!".formatted(player.name(), TimeUtil.formatSeconds(parser.getMillis()))));
+		source.sendMessage(Component.text("§7Set whitelist of §f%s§7 to §a%s§7!".formatted(player.name(), TimeUtil.formatToSeconds(parser.getMillis()))));
 	}
 }
