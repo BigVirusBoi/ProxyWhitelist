@@ -8,7 +8,7 @@ import lombok.Setter;
 import me.bigvirusboi.whitelist.cache.CachedPlayer;
 import me.bigvirusboi.whitelist.cache.PlayerCache;
 import me.bigvirusboi.whitelist.util.Permissions;
-import me.bigvirusboi.whitelist.util.TimeUtil;
+import me.bigvirusboi.whitelist.util.time.TimeUtil;
 import me.bigvirusboi.whitelist.util.Util;
 import net.kyori.adventure.text.Component;
 
@@ -49,7 +49,7 @@ public class Whitelist {
 			return "§cEXPIRED";
 		}
 
-		return "§a" + TimeUtil.formatToSeconds(expire - System.currentTimeMillis());
+		return "§a" + TimeUtil.toFormattedString(expire - System.currentTimeMillis());
 	}
 
 	public long getDuration(UUID uuid) {

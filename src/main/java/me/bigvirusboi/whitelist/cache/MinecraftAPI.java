@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MinecraftAPI {
@@ -38,11 +39,16 @@ public final class MinecraftAPI {
 				String uuidString = jsonObject.get("id").getAsString();
 				UUID uuid = Util.parseUUID(uuidString);
 				String name = jsonObject.get("name").getAsString();
-				if (uuid == null || name == null) return null;
+				if (uuid == null || name == null) {
+					Logger.getLogger("MinecraftAPI").severe("Unable to GET player " + query + ": " + response.toString());
+					return null;
+				}
 
 				return new CachedPlayer(uuid, name);
 			}
-		} catch (Exception ignored) {
+		} catch (Exception ex) {
+			Logger.getLogger("MinecraftAPI").severe("Unable to GET player " + query + ": " + ex);
+			ex.printStackTrace();
 		}
 		return null;
 	}

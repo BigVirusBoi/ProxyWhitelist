@@ -20,12 +20,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-@Plugin(id = "whitelist", name = "Whitelist", version = BuildConstants.VERSION,
-		description = "Adds an advanced whitelist to Velocity", authors = {"BigVirusBoi"})
+@Plugin(id = "whitelist", name = "ProxyWhitelist", version = BuildConstants.VERSION,
+		description = "Advanced whitelist system for Velocity", authors = {"BigVirusBoi"})
 public final class ProxyWhitelist {
 	private final ProxyServer server;
-	private final Logger logger;
-	private final Path dataDirectory;
 
 	private final PlayerCache cache;
 	private final Whitelist whitelist;
@@ -33,8 +31,6 @@ public final class ProxyWhitelist {
 	@Inject
 	public ProxyWhitelist(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
 		this.server = server;
-		this.logger = logger;
-		this.dataDirectory = dataDirectory;
 
 		logger.info("ProxyWhitelist is loading");
 		this.cache = new PlayerCache(server);
@@ -58,7 +54,6 @@ public final class ProxyWhitelist {
 			}
 			if (!whitelist.isWhitelisted(player)) {
 				e.setResult(ResultedEvent.ComponentResult.denied(Component.text("§cYou are not whitelisted")));
-				return;
 			}
 		});
 

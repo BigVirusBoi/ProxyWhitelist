@@ -11,13 +11,33 @@ import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Util {
-	public static UUID parseUUID(String id) {
-		if (id == null) return null;
+	public static UUID parseUUID(String input) {
+		if (input == null) return null;
 		try {
-			return UUID.fromString(id);
-		} catch (IllegalArgumentException ex) {
-			return null;
+			return UUID.fromString(input);
+		} catch (IllegalArgumentException ignored) {}
+		try {
+			return fromTrimmedUUID(input);
+		} catch (IllegalArgumentException ignored) {}
+		return null;
+	}
+
+	public static UUID fromTrimmedUUID(String input) throws IllegalArgumentException {
+		if (input == null)
+			throw new IllegalArgumentException();
+
+		StringBuilder builder = new StringBuilder(input.trim());
+		/* Backwards adding to avoid index adjustments */
+		try {
+			builder.insert(20, "-");
+			builder.insert(16, "-");
+			builder.insert(12, "-");
+			builder.insert(8, "-");
+		} catch (StringIndexOutOfBoundsException e) {
+			throw new IllegalArgumentException();
 		}
+
+		return UUID.fromString(builder.toString());
 	}
 
 	public static void copyPartialMatches(String token, List<String> originals, List<String> collection) {
@@ -35,17 +55,18 @@ public final class Util {
 		return string.regionMatches(true, 0, prefix, 0, prefix.length());
 	}
 
-	public static File createFile(File file) {
+	public static void createFile(File file) {
 		try {
 			Files.createParentDirs(file);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
 		}
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-			} catch (IOException ignored) {}
+			} catch (IOException ex) {
+				throw new RuntimeException(ex);
+			}
 		}
-		return file;
 	}
 }
