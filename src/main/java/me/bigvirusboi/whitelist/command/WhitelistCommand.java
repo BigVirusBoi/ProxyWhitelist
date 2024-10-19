@@ -38,9 +38,15 @@ public class WhitelistCommand extends CoreCommand {
 		String[] args = invocation.arguments();
 
 		if (args.length == 0) {
+			int entries = whitelist.getWhitelisted().size();
+
+			source.sendMessage(Component.text(""));
 			source.sendMessage(Component.text("§7Running §6§lProxy Whitelist §8(v" + BuildConstants.VERSION + ")§7 by §e" + Constants.CREDITS));
-			source.sendMessage(Component.text("§7Whitelist is " + (whitelist.isEnabled() ? "§c§lACTIVE" : "§c§lNOT ACTIVE") + "§7 with §e" + whitelist.getWhitelisted().size() + " entries"));
-			source.sendMessage(Component.newline().append(Component.text("§7To view subcommands, use §e/" + CMD + " help")));
+			source.sendMessage(Component.text("§7Whitelist is %s§7 with §e%s %s"
+					.formatted(whitelist.isEnabled() ? "§aactive" : "§cnot active", entries, entries == 1 ? "entry" : "entries")));
+			source.sendMessage(Component.text(""));
+			source.sendMessage(Component.text("§7To view subcommands, use §e/" + CMD + " help"));
+			source.sendMessage(Component.text(""));
 			return;
 		}
 
